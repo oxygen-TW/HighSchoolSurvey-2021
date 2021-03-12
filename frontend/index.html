@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocas-ui/2.3.3/tocas.css">
     <!-- Tocas JS：模塊與 JavaScript 函式 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tocas-ui/2.3.3/tocas.js"></script>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <style>
         .txt {
             font-size: 16px;
@@ -22,11 +23,12 @@
 <body>
     <div class="ts grid">
         <div class="sixteen wide column" style="margin-left: 18px; margin-top: 18px">
-            <form action="http://127.0.0.1:3000/submit" id="mainForm" method="post" class="ts form">
+            <form action="http://web.oxygentw.net:3000/submit" id="mainForm" method="post" class="ts form">
                 <h2>基本資料</h2>
                 <div class="ts message">
-                    <p>調查說明：感謝您參與本次調查，這次調查是匿名的，收集學號只是避免同一人重複填寫，我們將會進行去識別化處理。<br/>
-                        請依照題目回答，第六題的升學方向程式設計即為學習如何解題，於APCS拿到高分；而應用程式設計則著重於學習如何利用程式設計解決生活問題。
+                    <p>調查說明：感謝您參與本次調查，這次調查是匿名的，收集學號只是避免同一人重複填寫，我們將會進行去識別化處理。<br />
+                        請依照題目回答，第六題的升學方向程式設計即為學習如何解題，於APCS拿到高分；而應用程式設計則著重於學習如何利用程式設計解決生活問題。<br />
+                        有相關疑問歡迎詢問：<a href="mailto:s0770012@gm.csmu.edu.tw">mailto:s0770012@gm.csmu.edu.tw</a>
                     </p>
                 </div>
                 <div class="txt">
@@ -98,7 +100,9 @@
                 <br />
                 <!-- 學校代碼隱藏輸入 -->
                 <input type="hidden" name="schoolCode" id="schoolCodeCtrl" value="000">
-
+                <div class="g-recaptcha" data-sitekey="6LeW5XwaAAAAAEOFUL6egsiO22wwc77l887jOQX5" data-theme="light" data-size="normal"
+                    data-callback="verifyCallback" data-expired-callback="expired" data-error-callback="error">
+                </div>
                 <input type="button" value="送出" onclick="check()">
             </form>
         </div>

@@ -1,6 +1,7 @@
 from flask import Flask, request, Response
 from flask import render_template
 from pymysql import NULL
+import requests
 
 from database import Database
 from config import schoolCodeDict, MainConfig
@@ -13,8 +14,22 @@ def hello():
     return "Hello Flask!"
 
 
+def verify(res):
+    secret = MainConfig["secret"]
+    baseApi = "https://www.google.com/recaptcha/api/siteverify?secret={}&response={}".format(secret, res)
+
+    r = requests.get(baseApi)
+    return r.json()["success"]
+
 @app.route("/submit", methods=['POST'])
 def submit():
+    #check recaptcha
+    if(request.values.get('g-recaptcha-response') == ""):
+        return "<h1>人機驗證失敗，請回上一頁重新驗證</h1>"
+
+    #print(request.values.get('g-recaptcha-response'))
+    #print(verify(request.values.get('g-recaptcha-response')))
+
     # 建立資料庫控制器
     d = Database("Main")
 
@@ -25,13 +40,12 @@ def submit():
         return "<h1>學校代碼錯誤</h1><br>請聯絡開發人員 code=" + request.values.get('schoolCode')
     else:
         schoolCode = schoolCodeDict[request.values.get('schoolCode')]
+        print(request.values.get('stuId'))
 
     # 檢查學號是否重複，並且防止SQL注入
-    result = d.checkStuId(schoolCode, request.values.get('stuId'))
-    if(result == -1):
-        return Response(status=403)
+    result = d.checkStuId(request.values.get('stuId'), schoolCode)
 
-    if(d.checkStuId(request.values.get('stuId'))):
+    if(result):
         return "<h1>感謝您，已經填寫過囉~</h1>"
         # return request.values.get('stuId')
 
