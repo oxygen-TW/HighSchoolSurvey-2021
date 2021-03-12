@@ -1,5 +1,6 @@
 from flask import Flask, request, Response
 from flask import render_template
+from pymysql import NULL
 
 from database import Database
 from config import schoolCodeDict, MainConfig
@@ -17,8 +18,16 @@ def submit():
     # 建立資料庫控制器
     d = Database("Main")
 
+    #檢查學校代碼
+    schoolCode = request.values.get('schoolCode')
+    if(schoolCode not in schoolCodeDict):
+        schoolCode = NULL
+        return "<h1>學校代碼錯誤</h1><br>請聯絡開發人員 code=" + request.values.get('schoolCode')
+    else:
+        schoolCode = schoolCodeDict[request.values.get('schoolCode')]
+
     # 檢查學號是否重複，並且防止SQL注入
-    result = d.checkStuId(request.values.get('stuId'))
+    result = d.checkStuId(schoolCode, request.values.get('stuId'))
     if(result == -1):
         return Response(status=403)
 
@@ -26,9 +35,10 @@ def submit():
         return "<h1>感謝您，已經填寫過囉~</h1>"
         # return request.values.get('stuId')
 
+    #建立資料
     data = {
         "stuId": request.values.get('stuId'),
-        "school": schoolCodeDict[request.values.get('schoolCode')],
+        "school": schoolCode,
         "sex": request.values.get('sex'),
         "grade": request.values.get('grade'),
         "department": request.values.get('dept'),
@@ -40,6 +50,8 @@ def submit():
         "Q6": request.values.get('Q6'),
         "Q7": request.values.get('Q7'),
     }
+
+    #寫入資料庫
     d.insertDict(data)
     d.closeDB()
 

@@ -20,15 +20,11 @@ class Database():
         cursor.execute(insert_sql, tuple(dataDict.values()))  ##执行SQL,绑定dict对应的参数
         self.conn.commit()
 
-    #尚未防注入
-    def checkStuId(self, stuId):
+    def checkStuId(self, stuId, school):
         #防止SQL injection
-        if(not(stuId.isnumeric())):
-            return -1
-
-        cmd = "SELECT COUNT(`id`) FROM `Main` WHERE `stuId` = \"{}\"".format(stuId)
+        cmd = "SELECT COUNT(`id`) FROM `Main` WHERE `school` = %s AND `stuId` = %s"
         cursor = self.conn.cursor()
-        cursor.execute(cmd)
+        cursor.execute(cmd, (school, stuId))
         res = cursor.fetchall()[0]
         return bool(res[0])
 
@@ -37,4 +33,4 @@ class Database():
     
 if __name__ == "__main__":
     d = Database("Main")
-    d.checkStuId("12374845")
+    print(d.checkStuId("12345", "僑泰中學"))

@@ -22,8 +22,13 @@
 <body>
     <div class="ts grid">
         <div class="sixteen wide column" style="margin-left: 18px; margin-top: 18px">
-            <form action="http://127.0.0.1:5000/submit" id="mainForm" method="post" class="ts form">
+            <form action="http://127.0.0.1:3000/submit" id="mainForm" method="post" class="ts form">
                 <h2>基本資料</h2>
+                <div class="ts message">
+                    <p>調查說明：感謝您參與本次調查，這次調查是匿名的，收集學號只是避免同一人重複填寫，我們將會進行去識別化處理。<br/>
+                        請依照題目回答，第六題的升學方向程式設計即為學習如何解題，於APCS拿到高分；而應用程式設計則著重於學習如何利用程式設計解決生活問題。
+                    </p>
+                </div>
                 <div class="txt">
                     您的學號：
                     <input type="text" name="stuId">
@@ -31,13 +36,13 @@
                 <br />
                 <div class="txt">
                     您的生理性別：
-                    <input type="radio" name="sex" value="1" class="ts checkboxes">男
+                    <input type="radio" name="sex" id="sex1" value="1" class="ts checkboxes">男
                     <input type="radio" name="sex" value="2" class="ts checkboxes">女
                 </div>
                 <br />
                 <div class="txt">
                     您目前的年級：
-                    <input type="radio" name="grade" value="1" >一&nbsp;&nbsp;
+                    <input type="radio" name="grade" value="1">一&nbsp;&nbsp;
                     <input type="radio" name="grade" value="2">二&nbsp;&nbsp;
                     <input type="radio" name="grade" value="3">三&nbsp;&nbsp;年級
                 </div>
@@ -98,6 +103,9 @@
             </form>
         </div>
     </div>
+    <footer id="id_footer" style="text-align:right; margin-right: 5px; margin-bottom: 3px;">
+        <p>程式開發 醫學檢驗暨生物技術學系 劉子豪 2021</p>
+    </footer>
 </body>
 
 </html>

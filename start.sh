@@ -1,0 +1,1 @@
+waitress-serve --port=3000 app:app
