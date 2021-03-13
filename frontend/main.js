@@ -119,9 +119,9 @@ function verifyCallback(token) {
     formData.append('token', token);
       
     // Google Apps Script 部署為網路應用程式後取得的 URL
-    var uriGAS = "https://script.google.com/macros/s/AKfycbwJPnhlT4by2TIg5r7-ITFFUsqHjgaDaw3AFLmuff33h_CuMlF7y1iu1or3UCVHMGXwlA/exec";
-        
-    fetch(uriGAS, {
+    //var uriGAS = "https://script.google.com/macros/s/AKfycbwJPnhlT4by2TIg5r7-ITFFUsqHjgaDaw3AFLmuff33h_CuMlF7y1iu1or3UCVHMGXwlA/exec";
+    var authURL = "http://web.oxygentw.net:3000/auth";
+    fetch(authURL, {
       method: "POST",
       body: formData
     }).then(response => response.json())

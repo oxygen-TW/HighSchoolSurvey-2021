@@ -4,14 +4,20 @@ from pymysql import NULL
 
 from database import Database
 from config import schoolCodeDict, MainConfig
+from auth import verify
 
 app = Flask(__name__)
-
 
 @app.route("/")
 def hello():
     return "Flask running"
 
+#reCaptcha verify
+@app.route("/auth", methods=["POST"])
+def authFunction():
+    res = request.values.get('token')
+    verifyRes = verify(res)
+    return verifyRes
 
 @app.route("/submit", methods=['POST'])
 def submit():
