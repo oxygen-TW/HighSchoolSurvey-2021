@@ -13,22 +13,12 @@ app = Flask(__name__)
 def hello():
     return "Hello Flask!"
 
-
-def verify(res):
-    secret = MainConfig["secret"]
-    baseApi = "https://www.google.com/recaptcha/api/siteverify?secret={}&response={}".format(secret, res)
-
-    r = requests.get(baseApi)
-    return r.json()["success"]
-
 @app.route("/submit", methods=['POST'])
 def submit():
     #check recaptcha
-    if(request.values.get('g-recaptcha-response') == ""):
-        return "<h1>人機驗證失敗，請回上一頁重新驗證</h1>"
-
-    #print(request.values.get('g-recaptcha-response'))
-    #print(verify(request.values.get('g-recaptcha-response')))
+    rcres = request.values.get('g-recaptcha-response')
+    if(rcres == "" ):
+        return "<script>alert('請完成 recaptcha 人機驗證');history.back();</script>"
 
     # 建立資料庫控制器
     d = Database("Main")

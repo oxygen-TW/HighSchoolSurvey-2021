@@ -1,3 +1,4 @@
+var recaptchaVerify = false;
 
 function Q2check(val) {
     document.getElementById("Q2").disabled = !val;
@@ -86,6 +87,12 @@ function check() {
         alert("第七題未選擇");
         return;
     }
+
+    if(!recaptchaVerify){
+        error();
+        return;
+    }
+
     //set schoolcode
     document.getElementById("schoolCodeCtrl").value = getSchoolCode();
     document.getElementById("mainForm").submit();
@@ -122,6 +129,7 @@ function verifyCallback(token) {
         if(result.success) {
             // 後端驗證成功，success 會是 true
             // 這邊寫驗證成功後要做的事
+            recaptchaVerify = true;
         } else {
             // success 為 false 時，代表驗證失敗，error-codes 會告知原因
             window.alert(result['error-codes'][0])
@@ -133,7 +141,7 @@ function verifyCallback(token) {
   }
 
   function error(){
-      alert("請完成google reCaptcha 驗證");
+      alert("請完成 google reCaptcha 驗證");
   }
 
   function expired(){
