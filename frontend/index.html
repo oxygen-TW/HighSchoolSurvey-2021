@@ -14,7 +14,7 @@
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <style>
         .txt {
-            font-size: 16px;
+            font-size: 12pt;
             margin-bottom: 6pt;
         }
     </style>
@@ -32,13 +32,14 @@
                     </p>
                 </div>
                 <div class="txt">
-                    您的學號：
-                    <input type="text" name="stuId">
+                    <label style="font-size: 12pt;">您的學號：
+                    <input type="text" name="stuId"></label>
                 </div>
                 <br />
                 <div class="txt">
                     您的生理性別：
-                    <input type="radio" name="sex" id="sex1" value="1" class="ts checkboxes">男
+                    <label style="font-size: 12pt;">
+                    <input type="radio" name="sex" id="sex1" value="1" class="ts checkboxes">男</label>
                     <input type="radio" name="sex" value="2" class="ts checkboxes">女
                 </div>
                 <br />
@@ -51,14 +52,14 @@
                 <br />
                 <div class="txt">
                     您就讀的科別：
-                    <input type="text" name="dept" placeholder="ex. 普通科">
+                    <input type="text" name="dept" placeholder="eg. 普通科">
                 </div>
 
                 <hr />
 
                 <h2>調查問卷</h2>
                 <div class="txt">
-                    1. 是否有規劃過程式設計相關課程?
+                    1. 您的學校是否有規劃過程式設計相關課程?
                     <input type="radio" name="Q1" value="1" onclick="Q2check(1)">是
                     <input type="radio" name="Q1" value="0" onclick="Q2check(0)">否
                 </div>
@@ -87,7 +88,7 @@
                 </div>
                 <br />
                 <div class="txt">
-                    6. 若會，請問你想學習升學方向的程式設計或應用程式設計?
+                    6. 若會，請問您想學習升學方向的程式設計或應用程式設計?
                     <input type="radio" name="Q6" value="school">升學方向
                     <input type="radio" name="Q6" value="application">應用程式設計
                 </div>
