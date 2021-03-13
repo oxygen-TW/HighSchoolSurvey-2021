@@ -142,3 +142,4 @@ Pipfile.lock
 ssl.config
 server.key
 server.crt
+others/

@@ -1,12 +1,18 @@
 from flask import Flask, request, Response
 from flask import render_template
 from pymysql import NULL
+from flask_jwt_extended import jwt_required
+from flask_jwt_extended import JWTManager
 
 from database import Database
 from config import schoolCodeDict, MainConfig
-from auth import verify
+from auth import verify, generateJWTtoken
 
 app = Flask(__name__)
+
+#setup jwt
+app.config["JWT_SECRET_KEY"] = MainConfig["JWTsecret"]
+jwt = JWTManager(app)
 
 @app.route("/")
 def hello():
@@ -17,15 +23,15 @@ def hello():
 def authFunction():
     res = request.values.get('token')
     verifyRes = verify(res)
-    return verifyRes
+    
+    if(not(verifyRes["success"])):
+        return "<script>alert('請完成 recaptcha 人機驗證');history.back();</script>"
+    
+    return generateJWTtoken()
 
+@jwt_required
 @app.route("/submit", methods=['POST'])
 def submit():
-    # check recaptcha
-    rcres = request.values.get('g-recaptcha-response')
-    if(rcres == ""):
-        return "<script>alert('請完成 recaptcha 人機驗證');history.back();</script>"
-
     # 建立資料庫控制器
     d = Database("Main")
 
