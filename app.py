@@ -1,6 +1,7 @@
 from flask import Flask, request, Response
 from flask import render_template
 from pymysql import NULL
+from flask_jwt_extended import get_jwt_identity
 from flask_jwt_extended import jwt_required
 from flask_jwt_extended import JWTManager
 import time
@@ -25,14 +26,17 @@ def authFunction():
     res = request.values.get('token')
     verifyRes = verify(res)
     
-    if(not(verifyRes["success"])):
+    #如果通過reCaptcha，發給jwt token
+    if(verifyRes["success"]):
         return "<script>alert('請完成 recaptcha 人機驗證');history.back();</script>"
     
     return generateJWTtoken(time.time())
 
-@jwt_required
 @app.route("/submit", methods=['POST'])
+@jwt_required()
 def submit():
+    current_user = get_jwt_identity()
+    print(current_user)
     # 建立資料庫控制器
     d = Database("Main")
 
