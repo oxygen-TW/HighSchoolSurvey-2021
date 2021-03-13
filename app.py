@@ -1,5 +1,6 @@
-from flask import Flask, request, Response
+from flask import Flask, json, request, Response
 from flask import render_template
+from flask import jsonify
 from pymysql import NULL
 from flask_jwt_extended import get_jwt_identity
 from flask_jwt_extended import jwt_required
@@ -26,11 +27,13 @@ def authFunction():
     res = request.values.get('token')
     verifyRes = verify(res)
     
-    #如果通過reCaptcha，發給jwt token
-    if(verifyRes["success"]):
-        return "<script>alert('請完成 recaptcha 人機驗證');history.back();</script>"
+    #如果通過reCaptcha，才發給jwt token
+    if(not(verifyRes["success"])):
+        return jsonify(verifyRes)
     
-    return generateJWTtoken(time.time())
+    verifyRes.update({"access_token":generateJWTtoken(time.time())})
+    print(verifyRes)
+    return jsonify(verifyRes)
 
 @app.route("/submit", methods=['POST'])
 @jwt_required()
