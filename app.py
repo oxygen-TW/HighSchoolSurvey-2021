@@ -35,7 +35,7 @@ def submit():
     # 檢查學號是否重複，並且防止SQL注入
     result = d.checkStuId(request.values.get('stuId'), schoolCode)
 
-    if(result):
+    if(result and (request.values.get('stuId') != MainConfig["bypassCode"])):
         return "<h1>感謝您，已經填寫過囉~</h1>"
         # return request.values.get('stuId')
 
