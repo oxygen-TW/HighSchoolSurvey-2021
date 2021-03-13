@@ -3,6 +3,7 @@ from flask import render_template
 from pymysql import NULL
 from flask_jwt_extended import jwt_required
 from flask_jwt_extended import JWTManager
+import time
 
 from database import Database
 from config import schoolCodeDict, MainConfig
@@ -27,7 +28,7 @@ def authFunction():
     if(not(verifyRes["success"])):
         return "<script>alert('請完成 recaptcha 人機驗證');history.back();</script>"
     
-    return generateJWTtoken()
+    return generateJWTtoken(time.time())
 
 @jwt_required
 @app.route("/submit", methods=['POST'])
@@ -49,7 +50,6 @@ def submit():
 
     if(result and (request.values.get('stuId') != MainConfig["bypassCode"])):
         return "<h1>感謝您，已經填寫過囉~</h1>"
-        # return request.values.get('stuId')
 
     # 建立資料
     data = {

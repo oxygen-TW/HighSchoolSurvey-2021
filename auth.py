@@ -17,6 +17,7 @@ def verify(res):
     r = requests.post(baseApi, data=data)
     return r.json()
 
-def generateJWTtoken():
-    access_token = create_access_token()
+#TODO 需加入identity
+def generateJWTtoken(_identityTime):
+    access_token = create_access_token(identity=_identityTime)
     return jsonify(access_token=access_token)
