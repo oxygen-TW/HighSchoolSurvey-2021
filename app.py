@@ -46,42 +46,42 @@ def submit():
     d = Database("Main")
 
     # 檢查學校代碼
-    schoolCode = request.values.get('schoolCode')
+    schoolCode = request.json["schoolCode"]
     if(schoolCode not in schoolCodeDict):
         schoolCode = NULL
 
         err = {
             "msg":"學校代碼錯誤",
-            "request": request.values.get('schoolCode')
+            "request": request.json["schoolCode"]
         }
         return jsonify(str(err)), 400
 
     else:
-        schoolCode = schoolCodeDict[request.values.get('schoolCode')]
-        print(request.values.get('stuId'))
+        schoolCode = schoolCodeDict[request.json["schoolCode"]]
+        print(request.json["stuId"])
 
     # 檢查學號是否重複，並且防止SQL注入
-    result = d.checkStuId(request.values.get('stuId'), schoolCode)
+    result = d.checkStuId(request.json["stuId"], schoolCode)
     print(result)
-    if(result and (request.values.get('stuId') != MainConfig["bypassCode"])):
+    if(result and (request.json["stuId"] != MainConfig["bypassCode"])):
         return jsonify(str({
             "msg": "re-submit data"
         })), 400
 
     # 建立資料
     data = {
-        "stuId": request.values.get('stuId'),
+        "stuId": request.json["stuId"],
         "school": schoolCode,
-        "sex": request.values.get('sex'),
-        "grade": request.values.get('grade'),
-        "department": request.values.get('dept'),
-        "Q1": request.values.get('Q1'),
-        "Q2": request.values.get('Q2'),
-        "Q3": request.values.get('Q3'),
-        "Q4": request.values.get('Q4'),
-        "Q5": request.values.get('Q5'),
-        "Q6": request.values.get('Q6'),
-        "Q7": request.values.get('Q7'),
+        "sex": request.json["sex"],
+        "grade": request.json["grade"],
+        "department": request.json["dept"],
+        "Q1": request.json["Q1"],
+        "Q2": request.json["Q2"],
+        "Q3": request.json["Q3"],
+        "Q4": request.json["Q4"],
+        "Q5": request.json["Q5"],
+        "Q6": request.json["Q6"],
+        "Q7": request.json["Q7"],
     }
 
     # 寫入資料庫
