@@ -1,4 +1,4 @@
-from flask import Flask, json, request, Response
+from flask import Flask, request, Response, send_from_directory
 from flask import render_template
 from flask import jsonify
 from pymysql import NULL
@@ -19,15 +19,15 @@ app = Flask(__name__)
 app.config["JWT_SECRET_KEY"] = MainConfig["JWTsecret"]
 jwt = JWTManager(app)
 
-@app.route("/")
-def hello():
-    return "Flask running"
+@app.route("/<path:path>")
+def hello(path):
+    return send_from_directory('frontend', path)
 
 #reCaptcha verify
 @app.route("/auth", methods=["POST"])
 def authFunction():
-    res = request.values.get('token')
-    verifyRes = verify(res)
+    token = request.json["token"]
+    verifyRes = verify(token)
     
     #如果通過reCaptcha，才發給jwt token
     if(verifyRes["success"]):
