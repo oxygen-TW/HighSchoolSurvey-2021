@@ -160,16 +160,17 @@ function verifyCallback(token) {
         })
     }).then(response => response.json())
       .then(result => {
-          console.log(result)
         if(result.success) {
             // 後端驗證成功，success 會是 true
             // 這邊寫驗證成功後要做的事
             recaptchaVerify = true;
             verifyToken = result["access_token"];
-            // disabled(false);
+            console.log("disable")
+            submitDisabled(false);
         } else {
             // success 為 false 時，代表驗證失敗，error-codes 會告知原因
-            console.log(result['error-codes'][0])
+            console.log(result['error-codes'][0]);
+            submitDisabled(true);
         }
       })
       .catch(err => {
@@ -184,7 +185,7 @@ function verifyCallback(token) {
   function expired(){
     alert("Google reCaptcha 驗證已過期，請重新驗證");
     loading(false);
-    disabled(true);
+    submitDisabled(true);
   }
 const SuccessModal = (title, message) => {
     const modal = `
