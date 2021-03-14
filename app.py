@@ -1,29 +1,35 @@
 from flask import Flask, request, Response
 from flask import render_template
 from pymysql import NULL
-import requests
 
 from database import Database
 from config import schoolCodeDict, MainConfig
+from auth import verify
 
 app = Flask(__name__)
 
-
 @app.route("/")
 def hello():
-    return "Hello Flask!"
+    return "Flask running"
+
+#reCaptcha verify
+@app.route("/auth", methods=["POST"])
+def authFunction():
+    res = request.values.get('token')
+    verifyRes = verify(res)
+    return verifyRes
 
 @app.route("/submit", methods=['POST'])
 def submit():
-    #check recaptcha
+    # check recaptcha
     rcres = request.values.get('g-recaptcha-response')
-    if(rcres == "" ):
+    if(rcres == ""):
         return "<script>alert('請完成 recaptcha 人機驗證');history.back();</script>"
 
     # 建立資料庫控制器
     d = Database("Main")
 
-    #檢查學校代碼
+    # 檢查學校代碼
     schoolCode = request.values.get('schoolCode')
     if(schoolCode not in schoolCodeDict):
         schoolCode = NULL
@@ -39,7 +45,7 @@ def submit():
         return "<h1>感謝您，已經填寫過囉~</h1>"
         # return request.values.get('stuId')
 
-    #建立資料
+    # 建立資料
     data = {
         "stuId": request.values.get('stuId'),
         "school": schoolCode,
@@ -55,7 +61,7 @@ def submit():
         "Q7": request.values.get('Q7'),
     }
 
-    #寫入資料庫
+    # 寫入資料庫
     d.insertDict(data)
     d.closeDB()
 
