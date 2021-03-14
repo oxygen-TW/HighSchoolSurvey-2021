@@ -111,6 +111,7 @@ function check() {
     // let formData = new FormData();
     // formData.append()
     data["school"] = getSchoolCode();
+    loading(true);
     fetch("/submit", {
         method: "POST",
         headers: {
@@ -121,7 +122,12 @@ function check() {
         body: JSON.stringify(data)
       }).then(res => res.json())
       .then(res => {
-          console.log(res)
+          if(res["msg"] == "ok") {
+              SuccessModal("提交成功", "表單已提交，感謝您的填寫。");
+          } else if(res["msg"] == "re-submit data"){
+              ErrorModal("重複提交", "您已經填寫過了，請勿重複填寫。");
+          }
+          loading(false);
       })
 }
 
@@ -176,4 +182,48 @@ function verifyCallback(token) {
 
   function expired(){
     alert("Google reCaptcha 驗證已過期，請重新驗證");
+    loading(false);
+  }
+const SuccessModal = (title, message) => {
+    const modal = `
+    <div class="header">
+        <i class="icon positive checkmark"></i>${title}
+      </div>
+      <div class="content">
+        <p>${message}</p>
+      </div>
+      <div class="actions">
+        <button class="ts ok basic button">
+          確定
+        </button>
+      </div>
+    `
+    const success = document.querySelector("#success")
+    success.innerHTML = modal;
+    success.removeAttribute("data-modal-initialized");
+    ts("#success").modal("show");
+}
+const ErrorModal = (title, message) => {
+    const modal = `
+    <div class="header">
+        <i class="icon negative remove"></i> ${title}
+      </div>
+      <div class="content">
+        <p>${message}</p>
+      </div>
+      <div class="actions">
+        <button class="ts ok basic button">
+          確定
+        </button>
+      </div>
+    `
+    const error = document.querySelector("#error");
+    error.innerHTML = modal;
+    error.removeAttribute("data-modal-initialized");
+    ts("#error").modal("show");
+  }
+
+  const loading = (status) => {
+      const load = document.getElementById("loading");
+      status ? load.classList.add("active") : load.classList.remove("active");
   }
