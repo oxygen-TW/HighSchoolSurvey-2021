@@ -9,6 +9,8 @@ flask = "*"
 waitress = "*"
 requests = "*"
 flask-jwt-extended = "*"
+pydantic = "*"
+flask-pydantic = "*"
 
 [dev-packages]
 
