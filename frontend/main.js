@@ -143,11 +143,6 @@ function getSchoolCode() {
 
 function verifyCallback(token) {
     var authURL = "/auth";
-<<<<<<< HEAD
-=======
-    console.log(token)
-
->>>>>>> d03f84868b7b47f5440d1dd4ca279b9be39f831f
     fetch(authURL, {
         method: "POST",
         headers: {
@@ -158,7 +153,6 @@ function verifyCallback(token) {
             token: token
         })
     }).then(response => response.json())
-<<<<<<< HEAD
       .then(result => {
           console.log(result)
         if(result.success) {
@@ -183,27 +177,3 @@ function verifyCallback(token) {
   function expired(){
     alert("Google reCaptcha 驗證已過期，請重新驗證");
   }
-=======
-        .then(result => {
-            if (result.success) {
-                // 後端驗證成功，success 會是 true
-                // 這邊寫驗證成功後要做的事
-                recaptchaVerify = true;
-            } else {
-                // success 為 false 時，代表驗證失敗，error-codes 會告知原因
-                window.alert(result['error-codes'][0])
-            }
-        })
-        .catch(err => {
-            window.alert(err)
-        })
-}
-
-function error() {
-    alert("請完成 google reCaptcha 驗證");
-}
-
-function expired() {
-    alert("google reCaptcha 驗證已過期，請重新驗證");
-}
->>>>>>> d03f84868b7b47f5440d1dd4ca279b9be39f831f
