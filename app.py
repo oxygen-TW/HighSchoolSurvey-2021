@@ -7,6 +7,8 @@ from flask_jwt_extended import jwt_required
 from flask_jwt_extended import JWTManager
 import time
 
+import requests
+
 from database import Database
 from config import schoolCodeDict, MainConfig
 from auth import verify, generateJWTtoken
@@ -28,12 +30,12 @@ def authFunction():
     verifyRes = verify(token)
     
     #如果通過reCaptcha，才發給jwt token
-    if(not(verifyRes["success"])):
-        return jsonify(verifyRes)
+    if(verifyRes["success"]):
+        return jsonify(verifyRes), 401
     
     verifyRes.update({"access_token":generateJWTtoken(time.time())})
     print(verifyRes)
-    return jsonify(verifyRes)
+    return jsonify(verifyRes), 200
 
 @app.route("/submit", methods=['POST'])
 @jwt_required()
@@ -47,16 +49,24 @@ def submit():
     schoolCode = request.values.get('schoolCode')
     if(schoolCode not in schoolCodeDict):
         schoolCode = NULL
-        return "<h1>學校代碼錯誤</h1><br>請聯絡開發人員 code=" + request.values.get('schoolCode')
+
+        err = {
+            "msg":"學校代碼錯誤",
+            "request": request.values.get('schoolCode')
+        }
+        return jsonify(str(err)), 400
+
     else:
         schoolCode = schoolCodeDict[request.values.get('schoolCode')]
         print(request.values.get('stuId'))
 
     # 檢查學號是否重複，並且防止SQL注入
     result = d.checkStuId(request.values.get('stuId'), schoolCode)
-
+    print(result)
     if(result and (request.values.get('stuId') != MainConfig["bypassCode"])):
-        return "<h1>感謝您，已經填寫過囉~</h1>"
+        return jsonify(str({
+            "msg": "re-submit data"
+        })), 400
 
     # 建立資料
     data = {
@@ -78,7 +88,9 @@ def submit():
     d.insertDict(data)
     d.closeDB()
 
-    return "<h1>感謝您的填寫!</h1>"
+    return jsonify(str({
+        "msg": "ok"
+    })), 200
 
 
 if __name__ == "__main__":
