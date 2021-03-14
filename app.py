@@ -42,8 +42,8 @@ def authFunction():
     token = request.json["token"]
     verifyRes = verify(token)
 
-    # 如果通過reCaptcha，才發給jwt token
-    if(not(verifyRes["success"])):
+    #如果通過reCaptcha，才發給jwt token
+    if(not verifyRes["success"]):
         return jsonify(verifyRes), 401
 
     #產生 JWT token
