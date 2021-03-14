@@ -122,16 +122,20 @@ function getSchoolCode() {
     }
 }
 
-function verifyCallback(token) {
-    var formData = new FormData();
-    formData.append('token', token);
-      
+function verifyCallback(token) {      
     // Google Apps Script 部署為網路應用程式後取得的 URL
     //var uriGAS = "https://script.google.com/macros/s/AKfycbwJPnhlT4by2TIg5r7-ITFFUsqHjgaDaw3AFLmuff33h_CuMlF7y1iu1or3UCVHMGXwlA/exec";
-    var authURL = "http://web.oxygentw.net:3000/auth";
+    var authURL = "/auth";
+    console.log(token)
     fetch(authURL, {
       method: "POST",
-      body: formData
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+          token: token
+      })
     }).then(response => response.json())
       .then(result => {
         if(result.success) {

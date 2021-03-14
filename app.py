@@ -24,8 +24,8 @@ def hello(path):
 #reCaptcha verify
 @app.route("/auth", methods=["POST"])
 def authFunction():
-    res = request.values.get('token')
-    verifyRes = verify(res)
+    token = request.json["token"]
+    verifyRes = verify(token)
     
     #如果通過reCaptcha，才發給jwt token
     if(not(verifyRes["success"])):
