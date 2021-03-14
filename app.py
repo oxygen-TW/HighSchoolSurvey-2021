@@ -34,9 +34,9 @@ def index(path):
 def authFunction():
     #檢查傳遞資料是否正確
     if(not("token" in request.json)):
-        return jsonify(str({
+        return jsonify({
             "msg": "argument error"
-        })), 400
+        }), 400
 
     #驗證
     token = request.json["token"]
@@ -71,7 +71,7 @@ def submit(body: frontData):
             "msg": "學校代碼錯誤",
             "request": request.json["school"]
         }
-        return jsonify(str(err)), 400
+        return jsonify(err), 400
 
     else:
         schoolCode = schoolCodeDict[request.json["school"]]
@@ -81,9 +81,9 @@ def submit(body: frontData):
     result = d.checkStuId(request.json["stuId"], schoolCode)
 
     if(result and (request.json["stuId"] != MainConfig["bypassCode"])):
-        return jsonify(str({
+        return jsonify({
             "msg": "re-submit data"
-        })), 400
+        }), 400
 
     # 建立資料
     Q2 = NULL
@@ -113,10 +113,9 @@ def submit(body: frontData):
     d.insertDict(dict(data))
     d.closeDB()
 
-    return jsonify(str({
+    return jsonify({
         "msg": "ok"
-    })), 200
-
+    }), 200
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=MainConfig["port"])
