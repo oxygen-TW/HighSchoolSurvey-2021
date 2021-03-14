@@ -1,4 +1,5 @@
 var recaptchaVerify = false;
+let verifyToken = "";
 let form = document.getElementById("mainForm");
 form.addEventListener("submit", (event) => {
     event.preventDefault();
@@ -42,7 +43,7 @@ function check() {
         return;
     }
 
-    if (document.getElementsByName("dept")[0].value == "") {
+    if (document.getElementsByName("department")[0].value == "") {
         alert("科別未填寫");
         return;
     }
@@ -96,14 +97,38 @@ function check() {
         return;
     }
 
-    if(!recaptchaVerify){
+    if (!recaptchaVerify) {
         error();
         return;
     }
-
-    //set schoolcode
-    document.getElementById("schoolCodeCtrl").value = getSchoolCode();
-    form.submit();
+    let data = {};
+    let inputs = form.querySelectorAll("input[type=\"radio\"]:checked, input[type=\"text\"]");
+    inputs.forEach(e => {
+        data[e.name] = e.value;
+    })
+    // //set schoolcode
+    // document.getElementById("schoolCodeCtrl").value = getSchoolCode();
+    // let formData = new FormData();
+    // formData.append()
+    data["school"] = getSchoolCode();
+    loading(true);
+    fetch("/submit", {
+        method: "POST",
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': "Bearer "+verifyToken
+        },
+        body: JSON.stringify(data)
+      }).then(res => res.json())
+      .then(res => {
+          if(res["msg"] == "ok") {
+              SuccessModal("提交成功", "表單已提交，感謝您的填寫。");
+          } else if(res["msg"] == "re-submit data"){
+              ErrorModal("重複提交", "您已經填寫過了，請勿重複填寫。");
+          }
+          loading(false);
+      })
 }
 
 //Source: https://ithelp.ithome.com.tw/articles/10190254
@@ -122,40 +147,91 @@ function getSchoolCode() {
     }
 }
 
-function verifyCallback(token) {      
-    // Google Apps Script 部署為網路應用程式後取得的 URL
-    //var uriGAS = "https://script.google.com/macros/s/AKfycbwJPnhlT4by2TIg5r7-ITFFUsqHjgaDaw3AFLmuff33h_CuMlF7y1iu1or3UCVHMGXwlA/exec";
+function verifyCallback(token) {
     var authURL = "/auth";
-    console.log(token)
     fetch(authURL, {
-      method: "POST",
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-          token: token
-      })
+        method: "POST",
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            token: token
+        })
     }).then(response => response.json())
       .then(result => {
         if(result.success) {
             // 後端驗證成功，success 會是 true
             // 這邊寫驗證成功後要做的事
             recaptchaVerify = true;
+            verifyToken = result["access_token"];
+            console.log("disable")
+            submitDisabled(false);
         } else {
             // success 為 false 時，代表驗證失敗，error-codes 會告知原因
-            window.alert(result['error-codes'][0])
+            console.log(result['error-codes'][0]);
+            submitDisabled(true);
         }
       })
       .catch(err => {
-          window.alert(err)
+          console.log(err)
       })
   }
 
   function error(){
-      alert("請完成 google reCaptcha 驗證");
+      alert("請完成 Google reCaptcha 驗證");
   }
 
   function expired(){
-    alert("google reCaptcha 驗證已過期，請重新驗證");
+    alert("Google reCaptcha 驗證已過期，請重新驗證");
+    loading(false);
+    submitDisabled(true);
+  }
+const SuccessModal = (title, message) => {
+    const modal = `
+    <div class="header">
+        <i class="icon positive checkmark"></i>${title}
+      </div>
+      <div class="content">
+        <p>${message}</p>
+      </div>
+      <div class="actions">
+        <button class="ts ok basic button">
+          確定
+        </button>
+      </div>
+    `
+    const success = document.querySelector("#success")
+    success.innerHTML = modal;
+    success.removeAttribute("data-modal-initialized");
+    ts("#success").modal("show");
+}
+const ErrorModal = (title, message) => {
+    const modal = `
+    <div class="header">
+        <i class="icon negative remove"></i> ${title}
+      </div>
+      <div class="content">
+        <p>${message}</p>
+      </div>
+      <div class="actions">
+        <button class="ts ok basic button">
+          確定
+        </button>
+      </div>
+    `
+    const error = document.querySelector("#error");
+    error.innerHTML = modal;
+    error.removeAttribute("data-modal-initialized");
+    ts("#error").modal("show");
+  }
+
+  const loading = (status) => {
+      const load = document.getElementById("loading");
+      status ? load.classList.add("active") : load.classList.remove("active");
+  }
+
+  const submitDisabled = (status) => {
+      let submit = document.querySelector("#submit");
+      status ? submit.disabled = true : submit.disabled = false;
   }
