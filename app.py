@@ -1,4 +1,4 @@
-from flask import Flask, request, Response
+from flask import Flask, request, Response, send_from_directory
 from flask import render_template
 from pymysql import NULL
 from flask_jwt_extended import jwt_required
@@ -14,9 +14,9 @@ app = Flask(__name__)
 app.config["JWT_SECRET_KEY"] = MainConfig["JWTsecret"]
 jwt = JWTManager(app)
 
-@app.route("/")
-def hello():
-    return "Flask running"
+@app.route("/<path:path>")
+def hello(path):
+    return send_from_directory('frontend', path)
 
 #reCaptcha verify
 @app.route("/auth", methods=["POST"])
