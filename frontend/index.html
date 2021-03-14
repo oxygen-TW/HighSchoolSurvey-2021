@@ -24,167 +24,179 @@
         <div class="ts narrow container">
             <p class="header">高中生程式普及抽樣調查問券</p>
         </div>
+    </div>
+    <div class="ts padded narrow container">
+        <div class="ts secondary primary message" style="margin-top: 2em;">
+            <div class="header">調查說明</div>
+            <p>
+                感謝您參與本次調查，這次調查是匿名的，收集學號只是避免同一人重複填寫，我們將會進行去識別化處理。<br />
+                請依照題目回答，第六題的升學方向程式設計即為學習如何解題，於 APCS 拿到高分；而應用程式設計則著重於學習如何利用程式設計解決生活問題。<br />
+                有相關疑問歡迎詢問：<a href="mailto:s0770012@gm.csmu.edu.tw">s0770012@gm.csmu.edu.tw</a>
+            </p>
         </div>
-        <div class="ts padded narrow container">
-            <div class="ts secondary primary message" style="margin-top: 2em;">
-                <div class="header">調查說明</div>
-                <p>
-                    感謝您參與本次調查，這次調查是匿名的，收集學號只是避免同一人重複填寫，我們將會進行去識別化處理。<br />
-                    請依照題目回答，第六題的升學方向程式設計即為學習如何解題，於 APCS 拿到高分；而應用程式設計則著重於學習如何利用程式設計解決生活問題。<br />
-                    有相關疑問歡迎詢問：<a href="mailto:s0770012@gm.csmu.edu.tw">s0770012@gm.csmu.edu.tw</a>
-                </p>
-            </div>
-            <div class="ts grid">
-                <div class="sixteen wide column" style="margin-left: 18px; margin-top: 18px; margin-right: 18px;">
-                    <form action="/submit" id="mainForm" method="post">
-                        <div class="ts horizontal form">
-                            <div class="ts header dividing">基本資料</div>
-                            <div class="field">
-                                <label for="stuId">您的學號</label>
-                                <input type="text" id="stuId" name="stuId">
-                            </div>
-                            <div class="field">
-                                <label for="">您的生理性別</label>
-                                <div class="ts compact horizontal checkboxes">
-                                    <div class="ts radio checkbox">
-                                        <input type="radio" name="sex" id="male" value="1" class="ts checkboxes">
-                                        <label for="male">男</label>
-                                    </div>
-                                    <div class="ts radio checkbox">
-                                        <input type="radio" name="sex" id="female" value="2" class="ts checkboxes">
-                                        <label for="female">女</label>
-                                    </div>
+        <div class="ts grid">
+            <div class="sixteen wide column" style="margin-left: 18px; margin-top: 18px; margin-right: 18px;">
+                <form action="/submit" id="mainForm" method="post">
+                    <div class="ts horizontal form">
+                        <div class="ts header dividing">基本資料</div>
+                        <div class="field">
+                            <label for="stuId">您的學號</label>
+                            <input type="text" id="stuId" name="stuId">
+                        </div>
+                        <div class="field">
+                            <label for="">您的生理性別</label>
+                            <div class="ts compact horizontal checkboxes">
+                                <div class="ts radio checkbox">
+                                    <input type="radio" name="sex" id="male" value="1" class="ts checkboxes">
+                                    <label for="male">男</label>
                                 </div>
-                            </div>
-                            <div class="field">
-                                <label for="">您目前的年級</label>
-                                <div class="ts compact horizontal checkboxes">
-                                    <div class="ts radio checkbox">
-                                        <input type="radio" id="grade1" name="grade" value="1">
-                                        <label for="grade1">一年級</label>
-                                    </div>
-                                    <div class="ts radio checkbox">
-                                        <input type="radio" id="grade2" name="grade" value="2">
-                                        <label for="grade2">二年級</label>
-                                    </div>
-                                    <div class="ts radio checkbox">
-                                        <input type="radio" id="grade3" name="grade" value="3">
-                                        <label for="grade3">三年級</label>
-                                    </div>
+                                <div class="ts radio checkbox">
+                                    <input type="radio" name="sex" id="female" value="2" class="ts checkboxes">
+                                    <label for="female">女</label>
                                 </div>
-                            </div>
-                            <div class="field">
-                                <label for="dept">您就讀的科別</label>
-                                <input type="text" id="dept" name="department" placeholder="ex. 普通科">
                             </div>
                         </div>
-                        <br>
-                        <div class="ts form">
-                            <div class="ts header dividing">調查問卷</div>
-                            <div class="field">
-                                <label for="">1. 是否有規劃過程式設計相關課程？</label>
-                                <div class="ts compact horizontal checkboxes">
-                                    <div class="ts radio checkbox">
-                                        <input type="radio" id="Q11" name="Q1" value="1" onclick="Q2check(1)">
-                                        <label for="Q11">是</label>
-                                    </div>
-                                    <div class="ts radio checkbox">
-                                        <input type="radio" id="Q12" name="Q1" value="0" onclick="Q2check(0)">
-                                        <label for="Q12">否</label>
-                                    </div>
+                        <div class="field">
+                            <label for="">您目前的年級</label>
+                            <div class="ts compact horizontal checkboxes">
+                                <div class="ts radio checkbox">
+                                    <input type="radio" id="grade1" name="grade" value="1">
+                                    <label for="grade1">一年級</label>
+                                </div>
+                                <div class="ts radio checkbox">
+                                    <input type="radio" id="grade2" name="grade" value="2">
+                                    <label for="grade2">二年級</label>
+                                </div>
+                                <div class="ts radio checkbox">
+                                    <input type="radio" id="grade3" name="grade" value="3">
+                                    <label for="grade3">三年級</label>
                                 </div>
                             </div>
-                            <div class="field">
-                                <label for="Q2">2. 若有，請問上課內容與教學程式語言為何？</label>
-                                <input type="text" name="Q2" id="Q2" value="">
-                            </div>
-                            <div class="field">
-                                <label for="">3. 是否聽過APCS大學程式設計先修檢測?</label>
-                                <div class="ts compact horizontal checkboxes">
-                                    <div class="ts radio checkbox">
-                                        <input type="radio" id="Q31" name="Q3" value="1"><label for="Q31">是</label>
-                                    </div>
-                                    <div class="ts radio checkbox">
-                                        <input type="radio" id="Q32" name="Q3" value="0"><label for="Q32">否</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="field">
-                                <label for="">4. 是否知道 APCS 可以協助申請大學?</label>
-                                <div class="ts compact horizontal checkboxes">
-                                    <div class="ts radio checkbox">
-                                        <input type="radio" id="Q41" name="Q4" value="1"><label for="Q41">是</label>
-                                    </div>
-                                    <div class="ts radio checkbox">
-                                        <input type="radio" id="Q42" name="Q4" value="0"><label for="Q42">否</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="field">
-                                <label for="">5. 你是否會想學習程式設計？</label>
-                                <div class="ts compact horizontal checkboxes">
-                                    <div class="ts radio checkbox">
-                                        <input type="radio" id="Q51" name="Q5" value="1" onclick="Q5check(1)"><label
-                                            for="Q51">是</label>
-                                    </div>
-                                    <div class="ts radio checkbox">
-                                        <input type="radio" id="Q52" name="Q5" value="0" onclick="Q5check(0)"><label
-                                            for="Q52">否</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="field">
-                                <label for="">6. 若會，請問你想學習升學方向的程式設計或應用程式設計？</label>
-                                <div class="ts compact horizontal checkboxes">
-                                    <div class="ts radio checkbox">
-                                        <input type="radio" name="Q6" id="Q61" value="school"><label
-                                            for="Q61">升學方向</label>
-                                    </div>
-                                    <div class="ts radio checkbox">
-                                        <input type="radio" name="Q6" id="Q62" value="application"><label
-                                            for="Q62">應用程式設計</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="field">
-                                <label for="">7. 若我們到你們學校開設假日程式設計工作坊是否有參與意願？</label>
-                                <div class="ts compact horizontal checkboxes">
-                                    <div class="ts radio checkbox">
-                                        <input type="radio" id="Q71" name="Q7" value="1"><label for="Q71">是</label>
-                                    </div>
-                                    <div class="ts radio checkbox">
-                                        <input type="radio" id="Q72" name="Q7" value="0"><label for="Q72">否</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="field">
-                                <div class="g-recaptcha" data-sitekey="6LeW5XwaAAAAAEOFUL6egsiO22wwc77l887jOQX5"
-                                    data-theme="light" data-size="normal" data-callback="verifyCallback"
-                                    data-expired-callback="expired" data-error-callback="error">
-                                </div>
-                                <p>完成驗證碼後請稍等 3 秒再送出</p>
-                            </div>
-                            <button class="ts button">送出</button>
                         </div>
+                        <div class="field">
+                            <label for="dept">您就讀的科別</label>
+                            <input type="text" id="dept" name="department" placeholder="ex. 普通科">
+                        </div>
+                    </div>
+                    <br>
+                    <div class="ts form">
+                        <div class="ts header dividing">調查問卷</div>
+                        <div class="field">
+                            <label for="">1. 是否有規劃過程式設計相關課程？</label>
+                            <div class="ts compact horizontal checkboxes">
+                                <div class="ts radio checkbox">
+                                    <input type="radio" id="Q11" name="Q1" value="1" onclick="Q2check(1)">
+                                    <label for="Q11">是</label>
+                                </div>
+                                <div class="ts radio checkbox">
+                                    <input type="radio" id="Q12" name="Q1" value="0" onclick="Q2check(0)">
+                                    <label for="Q12">否</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label for="Q2">2. 若有，請問上課內容與教學程式語言為何？</label>
+                            <input type="text" name="Q2" id="Q2" value="">
+                        </div>
+                        <div class="field">
+                            <label for="">3. 是否聽過APCS大學程式設計先修檢測?</label>
+                            <div class="ts compact horizontal checkboxes">
+                                <div class="ts radio checkbox">
+                                    <input type="radio" id="Q31" name="Q3" value="1"><label for="Q31">是</label>
+                                </div>
+                                <div class="ts radio checkbox">
+                                    <input type="radio" id="Q32" name="Q3" value="0"><label for="Q32">否</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label for="">4. 是否知道 APCS 可以協助申請大學?</label>
+                            <div class="ts compact horizontal checkboxes">
+                                <div class="ts radio checkbox">
+                                    <input type="radio" id="Q41" name="Q4" value="1"><label for="Q41">是</label>
+                                </div>
+                                <div class="ts radio checkbox">
+                                    <input type="radio" id="Q42" name="Q4" value="0"><label for="Q42">否</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label for="">5. 你是否會想學習程式設計？</label>
+                            <div class="ts compact horizontal checkboxes">
+                                <div class="ts radio checkbox">
+                                    <input type="radio" id="Q51" name="Q5" value="1" onclick="Q5check(1)"><label
+                                        for="Q51">是</label>
+                                </div>
+                                <div class="ts radio checkbox">
+                                    <input type="radio" id="Q52" name="Q5" value="0" onclick="Q5check(0)"><label
+                                        for="Q52">否</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label for="">6. 若會，請問你想學習升學方向的程式設計或應用程式設計？</label>
+                            <div class="ts compact horizontal checkboxes">
+                                <div class="ts radio checkbox">
+                                    <input type="radio" name="Q6" id="Q61" value="school"><label for="Q61">升學方向</label>
+                                </div>
+                                <div class="ts radio checkbox">
+                                    <input type="radio" name="Q6" id="Q62" value="application"><label
+                                        for="Q62">應用程式設計</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label for="">7. 若我們到你們學校開設假日程式設計工作坊是否有參與意願？</label>
+                            <div class="ts compact horizontal checkboxes">
+                                <div class="ts radio checkbox">
+                                    <input type="radio" id="Q71" name="Q7" value="1"><label for="Q71">是</label>
+                                </div>
+                                <div class="ts radio checkbox">
+                                    <input type="radio" id="Q72" name="Q7" value="0"><label for="Q72">否</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="g-recaptcha" data-sitekey="6LeW5XwaAAAAAEOFUL6egsiO22wwc77l887jOQX5"
+                                data-theme="light" data-size="normal" data-callback="verifyCallback"
+                                data-expired-callback="expired" data-error-callback="error">
+                            </div>
+                            <p>完成驗證碼後請稍等 3 秒再送出</p>
+                        </div>
+                        <button class="ts button">送出</button>
+                    </div>
 
-                        <!-- 學校代碼隱藏輸入 -->
-                        <input type="hidden" name="schoolCode" id="schoolCodeCtrl" value="000">
+                    <!-- 學校代碼隱藏輸入 -->
+                    <input type="hidden" name="schoolCode" id="schoolCodeCtrl" value="000">
 
-                    </form>
-                </div>
+                </form>
             </div>
         </div>
-        <br><br>
-        <div class="ts inverted bottom attatched very padded horizontally fitted fluid secondary segment">
-            <div class="ts narrow container">
-                <p>界面由 <a href="https://github.com/junyussh">Chun Yu Chen</a> 所設計。</p>
-                <p>後台系統由 醫學檢驗暨生物技術學系 <a href="https://github.com/oxygen-TW/">劉子豪</a> 開發。</p>
-                <hr>
-                <p>原始碼託管於 <a href="https://github.com/oxygen-TW/HighSchoolSurvey-2021"><i
-                            class="large github icon"></i>GitHub</a></p>
-            </div>
+    </div>
+    <br><br>
+    <div class="ts modals dimmer">
+        <dialog id="error" class="ts closable tiny modal">
+
+        </dialog>
+    </div>
+    <div class="ts modals dimmer">
+        <dialog id="success" class="ts closable tiny modal">
+
+        </dialog>
+    </div>
+    <div class="ts inverted bottom attatched very padded horizontally fitted fluid secondary segment">
+        <div class="ts narrow container">
+            <p>界面由 <a href="https://github.com/junyussh">Chun Yu Chen</a> 所設計。</p>
+            <p>後台系統由 醫學檢驗暨生物技術學系 <a href="https://github.com/oxygen-TW/">劉子豪</a> 開發。</p>
+            <hr>
+            <p>原始碼託管於 <a href="https://github.com/oxygen-TW/HighSchoolSurvey-2021"><i
+                        class="large github icon"></i>GitHub</a></p>
         </div>
-        <script src="main.js"></script>
+    </div>
+    <script src="main.js"></script>
+    <div class="ts dimmer" id="loading">
+        <div class="ts text loader">處理中</div>
+    </div>
 </body>
 
 </html>
