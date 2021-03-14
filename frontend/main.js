@@ -1,4 +1,5 @@
 var recaptchaVerify = false;
+let verifyToken = "";
 let form = document.getElementById("mainForm");
 form.addEventListener("submit", (event) => {
     event.preventDefault();
@@ -42,7 +43,7 @@ function check() {
         return;
     }
 
-    if (document.getElementsByName("dept")[0].value == "") {
+    if (document.getElementsByName("department")[0].value == "") {
         alert("科別未填寫");
         return;
     }
@@ -100,10 +101,28 @@ function check() {
         error();
         return;
     }
-
-    //set schoolcode
-    document.getElementById("schoolCodeCtrl").value = getSchoolCode();
-    form.submit();
+    let data = {};
+    let inputs = form.querySelectorAll("input[type=\"radio\"]:checked, input[type=\"text\"]");
+    inputs.forEach(e => {
+        data[e.name] = e.value;
+    })
+    // //set schoolcode
+    // document.getElementById("schoolCodeCtrl").value = getSchoolCode();
+    // let formData = new FormData();
+    // formData.append()
+    data["school"] = getSchoolCode();
+    fetch("/submit", {
+        method: "POST",
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': "Bearer "+verifyToken
+        },
+        body: JSON.stringify(data)
+      }).then(res => res.json())
+      .then(res => {
+          console.log(res)
+      })
 }
 
 //Source: https://ithelp.ithome.com.tw/articles/10190254
@@ -126,7 +145,6 @@ function verifyCallback(token) {
     // Google Apps Script 部署為網路應用程式後取得的 URL
     //var uriGAS = "https://script.google.com/macros/s/AKfycbwJPnhlT4by2TIg5r7-ITFFUsqHjgaDaw3AFLmuff33h_CuMlF7y1iu1or3UCVHMGXwlA/exec";
     var authURL = "/auth";
-    console.log(token)
     fetch(authURL, {
       method: "POST",
       headers: {
@@ -138,10 +156,12 @@ function verifyCallback(token) {
       })
     }).then(response => response.json())
       .then(result => {
+          console.log(result)
         if(result.success) {
             // 後端驗證成功，success 會是 true
             // 這邊寫驗證成功後要做的事
             recaptchaVerify = true;
+            verifyToken = result["access_token"];
         } else {
             // success 為 false 時，代表驗證失敗，error-codes 會告知原因
             window.alert(result['error-codes'][0])
@@ -153,9 +173,9 @@ function verifyCallback(token) {
   }
 
   function error(){
-      alert("請完成 google reCaptcha 驗證");
+      alert("請完成 Google reCaptcha 驗證");
   }
 
   function expired(){
-    alert("google reCaptcha 驗證已過期，請重新驗證");
+    alert("Google reCaptcha 驗證已過期，請重新驗證");
   }
