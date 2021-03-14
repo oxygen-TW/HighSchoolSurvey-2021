@@ -143,3 +143,4 @@ ssl.config
 server.key
 server.crt
 others/
+.vscode/
