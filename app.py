@@ -1,7 +1,7 @@
 import logging
 import time
 
-from flask import Flask, jsonify, request, send_from_directory, url_for, redirect
+from flask import Flask, jsonify, request, send_from_directory
 from flask_jwt_extended import JWTManager, get_jwt_identity, jwt_required
 from flask_pydantic import validate
 from pymysql import NULL
@@ -19,6 +19,7 @@ app.config["JWT_SECRET_KEY"] = MainConfig["JWTsecret"]
 jwt = JWTManager(app)
 
 #root route
+#TODO sc argument not pass to index.html
 @app.route("/")
 def root():
     return "<script>window.location.href='index.html';</script>"
@@ -31,13 +32,21 @@ def index(path):
 # reCaptcha verify
 @app.route("/auth", methods=["POST"])
 def authFunction():
+    #檢查傳遞資料是否正確
+    if(not("token" in request.json)):
+        return jsonify(str({
+            "msg": "argument error"
+        })), 400
+
+    #驗證
     token = request.json["token"]
     verifyRes = verify(token)
 
     # 如果通過reCaptcha，才發給jwt token
-    if(verifyRes["success"]):
+    if(not(verifyRes["success"])):
         return jsonify(verifyRes), 401
 
+    #產生 JWT token
     verifyRes.update({"access_token": generateJWTtoken(time.time())})
     print(verifyRes)
     return jsonify(verifyRes), 200

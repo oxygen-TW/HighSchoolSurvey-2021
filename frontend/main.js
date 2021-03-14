@@ -96,7 +96,7 @@ function check() {
         return;
     }
 
-    if(!recaptchaVerify){
+    if (!recaptchaVerify) {
         error();
         return;
     }
@@ -122,40 +122,39 @@ function getSchoolCode() {
     }
 }
 
-function verifyCallback(token) {      
-    // Google Apps Script 部署為網路應用程式後取得的 URL
-    //var uriGAS = "https://script.google.com/macros/s/AKfycbwJPnhlT4by2TIg5r7-ITFFUsqHjgaDaw3AFLmuff33h_CuMlF7y1iu1or3UCVHMGXwlA/exec";
+function verifyCallback(token) {
     var authURL = "/auth";
     console.log(token)
+
     fetch(authURL, {
-      method: "POST",
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-          token: token
-      })
+        method: "POST",
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            token: token
+        })
     }).then(response => response.json())
-      .then(result => {
-        if(result.success) {
-            // 後端驗證成功，success 會是 true
-            // 這邊寫驗證成功後要做的事
-            recaptchaVerify = true;
-        } else {
-            // success 為 false 時，代表驗證失敗，error-codes 會告知原因
-            window.alert(result['error-codes'][0])
-        }
-      })
-      .catch(err => {
-          window.alert(err)
-      })
-  }
+        .then(result => {
+            if (result.success) {
+                // 後端驗證成功，success 會是 true
+                // 這邊寫驗證成功後要做的事
+                recaptchaVerify = true;
+            } else {
+                // success 為 false 時，代表驗證失敗，error-codes 會告知原因
+                window.alert(result['error-codes'][0])
+            }
+        })
+        .catch(err => {
+            window.alert(err)
+        })
+}
 
-  function error(){
-      alert("請完成 google reCaptcha 驗證");
-  }
+function error() {
+    alert("請完成 google reCaptcha 驗證");
+}
 
-  function expired(){
+function expired() {
     alert("google reCaptcha 驗證已過期，請重新驗證");
-  }
+}
