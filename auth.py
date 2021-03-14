@@ -1,5 +1,4 @@
 import requests
-from flask import jsonify
 from flask_jwt_extended import create_access_token
 from flask_jwt_extended import get_jwt_identity
 
@@ -20,4 +19,4 @@ def verify(res):
 #TODO 需加入identity
 def generateJWTtoken(_identityTime):
     access_token = create_access_token(identity=_identityTime)
-    return jsonify(access_token=access_token)
+    return access_token
