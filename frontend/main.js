@@ -166,13 +166,14 @@ function verifyCallback(token) {
             // 這邊寫驗證成功後要做的事
             recaptchaVerify = true;
             verifyToken = result["access_token"];
+            // disabled(false);
         } else {
             // success 為 false 時，代表驗證失敗，error-codes 會告知原因
-            window.alert(result['error-codes'][0])
+            console.log(result['error-codes'][0])
         }
       })
       .catch(err => {
-          window.alert(err)
+          console.log(err)
       })
   }
 
@@ -183,6 +184,7 @@ function verifyCallback(token) {
   function expired(){
     alert("Google reCaptcha 驗證已過期，請重新驗證");
     loading(false);
+    disabled(true);
   }
 const SuccessModal = (title, message) => {
     const modal = `
@@ -226,4 +228,9 @@ const ErrorModal = (title, message) => {
   const loading = (status) => {
       const load = document.getElementById("loading");
       status ? load.classList.add("active") : load.classList.remove("active");
+  }
+
+  const submitDisabled = (status) => {
+      let submit = document.querySelector("#submit");
+      status ? submit.disabled = true : submit.disabled = false;
   }
