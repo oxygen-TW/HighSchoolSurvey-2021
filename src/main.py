@@ -27,7 +27,7 @@ def root():
 #homepage route
 @app.route("/<path:path>")
 def index(path):
-    return send_from_directory('frontend', path)
+    return send_from_directory('../frontend', path)
 
 # reCaptcha verify
 @app.route("/auth", methods=["POST"])
