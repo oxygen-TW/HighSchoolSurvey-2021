@@ -144,3 +144,5 @@ server.key
 server.crt
 others/
 .vscode/
+dockerfile
+gae-deploy/
