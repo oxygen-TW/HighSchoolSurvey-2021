@@ -6,7 +6,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>高中生程式普及抽樣調查問券</title>
-    <script src="main.js"></script>
     <!-- Tocas UI：CSS 與元件 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tocas-ui@2.3.2/dist/tocas.css">
     <!-- Tocas JS：模塊與 JavaScript 函式 -->
@@ -37,7 +36,7 @@
             </div>
             <div class="ts grid">
                 <div class="sixteen wide column" style="margin-left: 18px; margin-top: 18px; margin-right: 18px;">
-                    <form action="http://web.oxygentw.net:3000/submit" id="mainForm" method="post">
+                    <form action="/submit" id="mainForm" method="post">
                         <div class="ts horizontal form">
                             <div class="ts header dividing">基本資料</div>
                             <div class="field">
@@ -165,7 +164,7 @@
                                 </div>
                                 <p>完成驗證碼後請稍等 3 秒再送出</p>
                             </div>
-                            <button class="ts button" onclick="check()">送出</button>
+                            <button class="ts button">送出</button>
                         </div>
 
                         <!-- 學校代碼隱藏輸入 -->
@@ -185,6 +184,7 @@
                             class="large github icon"></i>GitHub</a></p>
             </div>
         </div>
+        <script src="main.js"></script>
 </body>
 
 </html>

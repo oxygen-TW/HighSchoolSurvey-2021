@@ -1,4 +1,12 @@
 var recaptchaVerify = false;
+let form = document.getElementById("mainForm");
+form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    console.log("submit")
+    check()
+})
+// let submitBtn = document.querySelector("input[type=\"submit\"]");
+// submitBtn.preventDefault();
 
 function Q2check(val) {
     document.getElementById("Q2").disabled = !val;
@@ -95,7 +103,7 @@ function check() {
 
     //set schoolcode
     document.getElementById("schoolCodeCtrl").value = getSchoolCode();
-    document.getElementById("mainForm").submit();
+    form.submit();
 }
 
 //Source: https://ithelp.ithome.com.tw/articles/10190254
