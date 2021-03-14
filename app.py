@@ -30,7 +30,7 @@ def authFunction():
     verifyRes = verify(token)
     
     #如果通過reCaptcha，才發給jwt token
-    if(verifyRes["success"]):
+    if(not verifyRes["success"]):
         return jsonify(verifyRes), 401
     
     verifyRes.update({"access_token":generateJWTtoken(time.time())})
